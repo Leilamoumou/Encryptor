@@ -24,8 +24,8 @@
          </div>
 
          <div class="form-group">
-            <label for="Shift by"><span id="shiftVal">7</span></label>
-       <input type="Permitted Range" id="shift" min="1" max="25" value="7" oninput="shiftVal.textContent=this.value">
+        <label for="shift">Shift by: <span id="shiftVal">7</span></label>
+        <input type="range" id="shift" min="1" max="25" value="7" ...>
          </div>
 
         <button class="form-submit-btn" type="button" onclick="encode()">Encode</button>
@@ -43,7 +43,7 @@
         //also adding chaining of encryption, so some numeric vals are mapped to numbers which are THEN mapped to an alphabetical letter!
 
         const digitMap = {
-    '0': 'z', '1': 'b', '2': 'd', '3': 'f', '4': '2',
+    '0': 'm', '1': 'b', '2': 'd', '3': 'f', '4': '2',
     '5': '3', '6': '4', '7': 'h', '8': 'x', '9': 'z'
 };
 
@@ -57,9 +57,10 @@ function mapChar(char, seen = new Set()) {
             const alphabets = [lower, upper, punct];
              return text.split('').map(char => {
                 //digit to letter THEN encrypt : O
-                const mapped = digitMap[char] ?? char;
+                 const mapped = mapChar(char); 
+              
                 for (const alpha of alphabets) {
-                    const i = alpha.indexOf(char);
+                    const i = alpha.indexOf(mapped); 
                     if (i !== -1) 
                     return alpha[(i + shift) % alpha.length];
                 }
