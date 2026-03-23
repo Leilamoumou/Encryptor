@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Caesar Cipher</title>
+        <link rel="stylesheet" href="styles.css">
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 80px auto; padding: 0 20px; }
+        input, textarea { width: 100%; padding: 8px; margin: 8px 0; box-sizing: border-box; }
+        button { padding: 10px 20px; cursor: pointer; }
+        #result { margin-top: 20px; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <h1>Caesar Cipher!</h1>
+    <div class ="form-container">
+        <form class ="form">
+            <div class="form-group">
+                <label for="text">Text</label>
+                <textarea id="text" name="text" rows="4" cols="50" placeholder="Enter text here ^-^ :" required>
+        </textarea>   
+         </div>
+
+         <div class="form-group">
+            <label for="Shift by"><span id="shiftVal">7</span></label>
+       <input type="Permitted Range" id="shift" min="1" max="25" value="7" oninput="shiftVal.textContent=this.value">
+         </div>
+
+        <button class="form-submit-btn" type="button" onclick="encode()">Encode</button>
+        <button class="form-submit-btn" type="button" onclick="decode()">Decode</button>
+    </form>
+    <div id="result"></div>
+    </div>
+   
+    <script>
+        const lower = 'abcdefghijklmnopqrstuvwxyz';
+        const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const punct = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
+
+        function caesar(text, shift) {
+            const alphabets = [lower, upper, punct];
+            return text.split('').map(char => {
+                for (const alpha of alphabets) {
+                    const i = alpha.indexOf(char);
+                    if (i !== -1) return alpha[(i + shift) % alpha.length];
+                }
+                return char;
+            }).join('');
+        }
+
+        function encode() {
+            const shift = parseInt(document.getElementById('shift').value);
+            const text = document.getElementById('text').value;
+            document.getElementById('result').textContent = caesar(text, shift);
+        }
+
+        function decode() {
+            const shift = parseInt(document.getElementById('shift').value);
+            const text = document.getElementById('text').value;
+            document.getElementById('result').textContent = caesar(text, 26 - shift);
+        }
+    </script>
+</body>
+</html>
