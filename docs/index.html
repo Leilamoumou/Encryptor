@@ -25,7 +25,8 @@
 
          <div class="form-group">
         <label for="shift">Shift by: <span id="shiftVal">7</span></label>
-        <input type="range" id="shift" min="1" max="25" value="7" ...>
+
+        <input type="range" id="shift" min="1" max="25" value="7" oninput="shiftVal.textContent=this.value">
          </div>
 
         <button class="form-submit-btn" type="button" onclick="encode()">Encode</button>
@@ -70,21 +71,17 @@ function mapChar(char, seen = new Set()) {
         return mapped;
     }).join('');
 }
-const shifts = document.getElementById('shifts').value
-    .split(',')
-    .map(Number);
-caesar(text, shifts);
-        function encode() {
-            const shift = parseInt(document.getElementById('shift').value);
-            const text = document.getElementById('text').value;
-            document.getElementById('result').textContent = caesar(text, shift);
-        }
+function encode() {
+    const shifts = [parseInt(document.getElementById('shift').value)];
+    const text = document.getElementById('text').value;
+    document.getElementById('result').textContent = caesar(text, shifts);
+}
 
-        function decode() {
-            const shift = parseInt(document.getElementById('shift').value);
-            const text = document.getElementById('text').value;
-            document.getElementById('result').textContent = caesar(text, 26 - shift);
-        }
+function decode() {
+    const shifts = [parseInt(document.getElementById('shift').value)];
+    const text = document.getElementById('text').value;
+    document.getElementById('result').textContent = caesar(text, shifts.map(s => 26 - s));
+}
     </script>
 </body>
 </html>
