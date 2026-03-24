@@ -53,21 +53,27 @@ function mapChar(char, seen = new Set()) {
     return digitMap[char] ? mapChar(digitMap[char], seen) : char;
 }
 
-        function caesar(text, shift) {
+        function caesar(text, shifts) {
             const alphabets = [lower, upper, punct];
-             return text.split('').map(char => {
-                //digit to letter THEN encrypt : O
-                 const mapped = mapChar(char); 
-              
-                for (const alpha of alphabets) {
-                    const i = alpha.indexOf(mapped); 
-                    if (i !== -1) 
-                    return alpha[(i + shift) % alpha.length];
-                }
-                return char;
-            }).join('');
+            let shiftIndex = 0;
+            return text.split('').map(char => {
+             const mapped = mapChar(char);
+             for (const alpha of alphabets) {
+            const i = alpha.indexOf(mapped);
+           
+             if (i !== -1) {
+                const shift = shifts[shiftIndex % shifts.length];
+                shiftIndex++;
+                return alpha[(i + shift) % alpha.length];
+            }
         }
-
+        return mapped;
+    }).join('');
+}
+const shifts = document.getElementById('shifts').value
+    .split(',')
+    .map(Number);
+caesar(text, shifts);
         function encode() {
             const shift = parseInt(document.getElementById('shift').value);
             const text = document.getElementById('text').value;
